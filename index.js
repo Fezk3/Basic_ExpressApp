@@ -5,6 +5,10 @@ const app = express();
 app.set('view engine', 'ejs'); // for templates -> npm i ejs -> templates go in views directory
 // setting the public directory to serve static files (css, js, images)
 app.use(express.static('public'));
+// setting to tell express how to parse the body of the request POST
+app.use(express.urlencoded({ extended: true }));
+// setting to tell express to parse json
+app.use(express.json());
 
 app.listen(3000, () => {
     console.log('Server started on port 3000');
@@ -49,6 +53,14 @@ app.get('/dogs', (req, res) => {
     const dogs = ['husky', 'pug', 'labrador', 'poodle', 'beagle'];  // simulate a database
     res.render('dogs', { dogs: dogs });
 });
+
+
+// POST ROUTES -> INFO CAN BE EXTRACTED FROM THE req.body
+app.post('/', (req, res) => {
+    const { nombre } = req.body; // destructuring the body of the request
+    res.send(nombre);
+});
+
 
 // * route 
 app.get('*', (req, res) => {
